@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
+using System;
 
 namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
         public float Speed;
+        public float Sensitivity;
+        private float DefaultFOV;
+
+        void Start()
+        {
+            DefaultFOV = Camera.main.fieldOfView;
+        }
 
         void Update()
         {
@@ -29,6 +37,9 @@ namespace Assets.Scripts
                 var gun = GetComponent<Gun>();
                 if (gun != null) gun.Fire();
             }
+
+            var fov = Camera.main.fieldOfView;
+            Camera.main.fieldOfView = Mathf.Clamp(fov + Input.GetAxis("Mouse ScrollWheel") * Sensitivity, DefaultFOV - 20, DefaultFOV + 30);
         }
     }
 }
